@@ -1,0 +1,16 @@
+Commands:
+  create, modify and delete events
+  get
+    events based on constraints
+    free hours based on constraints
+  configure working hours
+
+Event definition
+  name
+  start date/time
+  end date/time
+  constraints (list of possible time intervals)
+  priority
+  min/max time split allowed
+
+Schedule Evaluation
