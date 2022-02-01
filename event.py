@@ -1,14 +1,14 @@
 from datetime import datetime, timedelta
-from typing import List, Generator
+from typing import List
 from constraint import Constraint
-from schedule import *
+
 
 class Event:
     def __init__(self, name: str, start: datetime, end: datetime,
-                 duration: int, constraint: Constraint,
+                 duration: timedelta, constraint: Constraint,
                  priority: int, minT: int, maxT: int):
         self.name: str = name
-        self.duration: float = duration  # hours
+        self.duration = duration
         self.constraint: Constraint = constraint
         self.start: datetime = start
         self.end: datetime = end
@@ -18,39 +18,22 @@ class Event:
         self.repeat: bool = False  # Todo: derive
         self.scheduled: bool = False
 
+    def __repr__(self):
+        return "{}: {:%x} - {:%x}".format(self.name, self.start, self.end)
+
+    @staticmethod
+    def create_basic(name: str, hours: float, constraint: Constraint, *, priority: int = 0):
+        return Event(name, datetime.min, datetime.min, timedelta(hours=hours), constraint, priority, 0, 0)
+
+    def can_split(self):
+        return self.maxTimeSplit != 0
+
     def flagScheduled(self, sched: bool) -> None:
         self.scheduled = sched and not self.repeat
 
     def split(self, ratio: float) -> List['Event']:
         raise NotImplemented
 
-    def generatePossibleSched(self, currentSched: 'Schedule', stopDate: datetime) -> Generator['Schedule']:
-        if self.scheduled:
-            return
-
-        scheds = []
-        # assume constraints are exclusive to each other. no overlap
-        for constraint in self.constraint:
-            newSched = currentSched.copy()
-            # newSched.add(eventatsometime)
-            scheds.append(newSched)
-            # create event at time constraint[0]
-            # currentSched.push(me)
-            # yield currentSched
-            # currentSched.pop()
-
-    def makeSchedules(self, currentSched: 'Schedule', startDate: datetime, stopDate: datetime, resolution: timedelta) -> List[(float, 'Schedule')]:
-        if self.scheduled or startDate <= stopDate:
-            return []
-
-        schedules_and_scores = []
-        time_inc = startDate
-        while time_inc < stopDate:
-
-
-
-            time_inc += resolution
-
     def check(self, start: datetime) -> float:
-        end = start + timedelta(hours=self.duration)
+        end = start + self.duration
         return self.constraint.check(start, end)

@@ -14,13 +14,16 @@ def check_for_multiple_days():
 class Constraint(ABC):
     def _check(self, start: datetime, end: datetime) -> float:
         """
-        Check a given timespan is within a constraint. This assumes start < end.
-
-        :return: percent availability from [0, 1]
+        :return: number of seconds available
         """
         raise NotImplementedError
 
     def check(self, start: datetime, end: datetime):
+        """
+        Check a given timespan is within a constraint. This assumes start < end.
+
+        :return: percent availability from [0, 1]
+        """
         if start.date() >= end.date():
             if start == end:
                 return 1.0
