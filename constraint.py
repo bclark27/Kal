@@ -177,3 +177,16 @@ class RepetitiveConstraint(Constraint):
                 return 0.0
 
         return self.constraint._check(start, end)
+
+
+# COMMON CONSTRAINT GENERATORS
+
+def gen_multi_day_constraint(days: list[int]):
+    """
+    Generate a constraint which restricts a date to any of the days given.
+    0 = mon, 1 = tues, 2 = wed, 3 = thur, 4 = fri, 5 = sat, 6 = sun
+
+    :param days: sequence of days to allow
+    :return: constraint of day1 OR day2 or day3 OR ...
+    """
+    return ConstraintUnion([DayOfWeekConstraint(day) for day in days])

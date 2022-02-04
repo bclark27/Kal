@@ -1,2 +1,4 @@
 .idea/
 
+# this file will be edited a lot for manual testing, so it should be ignored
+schedule.txt

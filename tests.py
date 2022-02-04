@@ -1,7 +1,9 @@
 from unittest import TestCase
 from constraint import *
-from datetime import datetime, timedelta, date, time
+from datetime import datetime, timedelta, time
 
+
+# noinspection DuplicatedCode
 class ConstraintTester(TestCase):
     def test_every_sun_sat(self):
 

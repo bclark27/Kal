@@ -6,6 +6,19 @@ from schedule import Schedule
 from event import Event
 from dataclasses import dataclass
 import util
+from schedule_parser import lexer
+
+with open("schedule.txt") as f:
+    sched_data = f.read()
+
+lexer.input(sched_data)
+while True:
+     tok = lexer.token()
+     if not tok:
+         break  # No more input
+     print(tok)
+
+exit()
 
 sch = Schedule([])
 events = [
