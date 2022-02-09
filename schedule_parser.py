@@ -7,28 +7,35 @@ states = (
     ('params', 'exclusive'),
 )
 
-tokens = (
-    'DAY_OF_MONTH',
+tokens = [
+    'NUMBER',
     'DAY_OF_WEEK',
+    'SPAN',
     'MONTH',
     'DASH',
+    'COMMA',
     'UNION',
     'SEPARATOR',
-    'OF',
+    'EVENT',
     'TIME',
     'ORDINAL',
-    'EVENT',
-)
+]
 
-t_times_DAY_OF_MONTH = r'\d\d?'
+t_times_NUMBER = r'\d+'
 t_times_DAY_OF_WEEK = r'mon(day)?|tues(day)?|wed(nesday)?|thur(s(day)?)?|fri(day)?|sat(urday)?|sun(day)?'
+t_times_SPAN = r'hour|day|week|month|year'
 t_times_MONTH = r'jan(uary)?|feb(ruary)?|mar(ch)?|apr(il)?|may|june?|july?|aug(ust)?|sep(t(ember)?)?|oct(ober)?|nov(ember)?|dec(ember)?'
 t_times_DASH = r'-'
-t_times_UNION = r','
+t_times_COMMA = r','
 
 reserved = {
-    'of': 'OF'
+    'of': 'OF',
+    'every': 'EVERY',
+    'and': 'AND',
 }
+
+tokens += reserved.values()
+
 
 def t_ANY_SEPARATOR(t):
     r'//+'
